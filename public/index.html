@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
+    <link ref="stylesheet" href="https://yarnpkg.com/en/package/normalize.css">
     <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
@@ -33,7 +33,14 @@
   padding: 20px;
   white-space: pre-wrap;
 "></div>
-    <div id="root"></div>
+
+    <div class="page">
+      <div class="page__container">
+        <h3 class="page__name">tic tac toe</h3>
+        <div id="root"></div>
+      </div>
+    </div>
+
     <script>
         window.addEventListener('mousedown', function(e) {
             document.body.classList.add('mouse-navigation');

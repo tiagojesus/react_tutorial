@@ -5,7 +5,7 @@ import './App.css';
 
 function Square(props) {
     return (
-        <button className="square"
+        <button className="game__board__square"
                 onClick={() => props.onClick() }>
             {props.value}
         </button>
@@ -24,22 +24,16 @@ class Board extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
+            <div className="game__board">
+                {this.renderSquare(0)}
+                {this.renderSquare(1)}
+                {this.renderSquare(2)}
+                {this.renderSquare(3)}
+                {this.renderSquare(4)}
+                {this.renderSquare(5)}
+                {this.renderSquare(6)}
+                {this.renderSquare(7)}
+                {this.renderSquare(8)}
             </div>
         );
     }
@@ -106,14 +100,12 @@ class Game extends React.Component {
 
         return (
             <div className="game">
-                <div className="game-board">
-                    <Board
-                        squares={current.squares}
-                        onClick={(i) => this.handleClick(i)}
-                    />
-                </div>
-                <div className="game-info">
-                    <div>{status}</div>
+                <Board
+                    squares={current.squares}
+                    onClick={(i) => this.handleClick(i)}
+                />
+                <div className="game__info">
+                    <div className="game__status">{status}</div>
                     <ol>{moves}</ol>
                 </div>
             </div>
