@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
 
+const _moveIndex = 9;
 
 function Square(props) {
     return (
@@ -44,7 +45,7 @@ class Game extends React.Component {
         super(props);
         this.state = {
             history: [{
-                squares: Array(9).fill(null),
+                squares: Array(10).fill(null),
             }],
             xIsNext: true,
             stepNumber: 0,
@@ -59,6 +60,7 @@ class Game extends React.Component {
             return;
         }
         squares[i] = this.state.xIsNext ? 'X' : 'O';
+        squares[_moveIndex] = i;
         this.setState({
             history: history.concat([{
                 squares: squares
@@ -81,9 +83,7 @@ class Game extends React.Component {
         const winner = calculateWinner(current.squares);
 
         const moves = history.map((step, move) => {
-            const desc = move ?
-                'Go to move #' + move :
-                'Go to game start';
+            const desc = this.historyButtonDescription(move, step);
             return (
                 <li key={move} className="game__history__item">
                     <button onClick={() => this.jumpTo(move)}
@@ -111,6 +111,23 @@ class Game extends React.Component {
                 </div>
             </div>
         );
+    }
+
+    historyButtonDescription(move, step) {
+        var description = 'Go to game start';
+
+        if(move){
+            const i = step.squares[_moveIndex];
+            const y = i % 3;
+            const x = Math.trunc(i/3);
+
+            const position =  "(" + (x + 1) + ", " + (y + 1) + ")";
+            const player = (move % 2 === 1) ? 'X' : 'O' ;
+
+            description = 'Go to move #' + move + ' ' + player + ' ' + position;
+        }
+
+        return description;
     }
 }
 
