@@ -86,3 +86,7 @@
 .game__history__item__button:hover{
     background: bisque;
 }
+.game__history__item__button--current{
+    font-weight: bold;
+    background: #ffb07f;
+}
