@@ -13,9 +13,7 @@ function Square(props) {
     );
 }
 
-
 class Board extends React.Component {
-
     renderSquare(i) {
         return <Square key={i}
                     value={this.props.squares[i]}
@@ -35,6 +33,46 @@ class Board extends React.Component {
                 {itens}
             </div>
         );
+    }
+}
+
+class HistoryPanel extends React.Component {
+    static historyButtonDescription(move, step) {
+        var description = 'Go to game start';
+
+        if(move){
+            const i = step.squares[_moveIndex];
+            const y = i % 3;
+            const x = Math.trunc(i/3);
+
+            const position =  "(" + (x + 1) + ", " + (y + 1) + ")";
+            const player = (move % 2 === 1) ? 'X' : 'O' ;
+
+            description = 'Go to move #' + move + ' ' + player + ' ' + position;
+        }
+
+        return description;
+    }
+
+    render(){
+        const history = this.props.history
+
+        const moves = history.map((step, move) => {
+            const desc = HistoryPanel.historyButtonDescription(move, step);
+            var className = 'game__history__item__button ';
+            if(this.props.stepNumber === move) {
+                className = className + 'game__history__item__button--current';
+            }
+
+            return (
+                <li key={move} className="game__history__item">
+                    <button onClick={() => this.props.onClick(move)}
+                            className={className}>{desc}</button>
+                </li>
+            );
+        });
+
+        return <ul className="game__history">{moves}</ul>;
     }
 }
 
@@ -80,21 +118,6 @@ class Game extends React.Component {
         const current = history[this.state.stepNumber];
         const winner = calculateWinner(current.squares);
 
-        const moves = history.map((step, move) => {
-            const desc = this.historyButtonDescription(move, step);
-            var className = 'game__history__item__button ';
-            if(this.state.stepNumber === move) {
-                className = className + 'game__history__item__button--current';
-            }
-
-            return (
-                <li key={move} className="game__history__item">
-                    <button onClick={() => this.jumpTo(move)}
-                        className={className}>{desc}</button>
-                </li>
-            );
-        });
-
         let status;
         if (winner) {
             status = 'Winner: ' + winner;
@@ -110,27 +133,13 @@ class Game extends React.Component {
                 />
                 <div className="game__info">
                     <div className="game__status">{status}</div>
-                    <ul className="game__history">{moves}</ul>
+                    <HistoryPanel history={this.state.history}
+                                  stepNumber={this.state.stepNumber}
+                                  onClick={ (i)=> this.jumpTo(i)}>
+                    </HistoryPanel>
                 </div>
             </div>
         );
-    }
-
-    historyButtonDescription(move, step) {
-        var description = 'Go to game start';
-
-        if(move){
-            const i = step.squares[_moveIndex];
-            const y = i % 3;
-            const x = Math.trunc(i/3);
-
-            const position =  "(" + (x + 1) + ", " + (y + 1) + ")";
-            const player = (move % 2 === 1) ? 'X' : 'O' ;
-
-            description = 'Go to move #' + move + ' ' + player + ' ' + position;
-        }
-
-        return description;
     }
 }
 
