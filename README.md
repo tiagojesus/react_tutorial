@@ -4,5 +4,5 @@ Estudo com o tutorial https://reactjs.org/tutorial/tutorial.html
 
 Para iniciar a aplicação
 - yarn
-- npm serve
+- npm run start
 
