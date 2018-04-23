@@ -1,82 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
+import './consts';
 
-const _moveIndex = 9;
-
-function Square(props) {
-    return (
-        <button className="game__board__square"
-                onClick={() => props.onClick() }>
-            {props.value}
-        </button>
-    );
-}
-
-class Board extends React.Component {
-    renderSquare(i) {
-        return <Square key={i}
-                    value={this.props.squares[i]}
-                    onClick={() => this.props.onClick(i)}
-                />;
-    }
-
-    render() {
-        const self =  this;
-        const indexs = [0,1,2,3,4,5,6,7,8];
-        const itens = indexs.map(function (index) {
-            return  self.renderSquare(index);
-        });
-
-        return (
-            <div className="game__board">
-                {itens}
-            </div>
-        );
-    }
-}
-
-class HistoryPanel extends React.Component {
-    static historyButtonDescription(move, step) {
-        var description = 'Go to game start';
-
-        if(move){
-            const i = step.squares[_moveIndex];
-            const y = i % 3;
-            const x = Math.trunc(i/3);
-
-            const position =  "(" + (x + 1) + ", " + (y + 1) + ")";
-            const player = (move % 2 === 1) ? 'X' : 'O' ;
-
-            description = 'Go to move #' + move + ' ' + player + ' ' + position;
-        }
-
-        return description;
-    }
-
-    render(){
-        const history = this.props.history
-
-        const moves = history.map((step, move) => {
-            const desc = HistoryPanel.historyButtonDescription(move, step);
-            var className = 'game__history__item__button ';
-            if(this.props.stepNumber === move) {
-                className = className + 'game__history__item__button--current';
-            }
-
-            return (
-                <li key={move} className="game__history__item">
-                    <button onClick={() => this.props.onClick(move)}
-                            className={className}>{desc}</button>
-                </li>
-            );
-        });
-
-        return <ul className="game__history">{moves}</ul>;
-    }
-}
+import Board from './components/board.js';
+import HistoryPanel from './components/history_panel.js';
+import Consts from "./consts";
 
 class Game extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -96,7 +28,7 @@ class Game extends React.Component {
             return;
         }
         squares[i] = this.state.xIsNext ? 'X' : 'O';
-        squares[_moveIndex] = i;
+        squares[Consts.moveIndex] = i;
         this.setState({
             history: history.concat([{
                 squares: squares
