@@ -20,22 +20,26 @@ class HistoryPanel extends React.Component {
     }
 
     render(){
-        const history = this.props.history
+        const history = this.props.history;
 
-        const moves = history.map((step, move) => {
-            const desc = HistoryPanel.historyButtonDescription(move, step);
+        var moves = history.map((step, index) => {
+            const desc = HistoryPanel.historyButtonDescription(index, step);
             var className = 'game__history__item__button ';
-            if(this.props.stepNumber === move) {
+            if(this.props.stepNumber === index) {
                 className = className + 'game__history__item__button--current';
             }
 
             return (
-                <li key={move} className="game__history__item">
-                    <button onClick={() => this.props.onClick(move)}
+                <li key={index} className="game__history__item">
+                    <button onClick={() => this.props.onClick(index)}
                             className={className}>{desc}</button>
                 </li>
             );
         });
+
+        if(this.props.orderReverse){
+            moves = moves.reverse();
+        }
 
         return <ul className="game__history">{moves}</ul>;
     }

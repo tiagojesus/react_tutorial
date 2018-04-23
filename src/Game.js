@@ -17,6 +17,7 @@ class Game extends React.Component {
             }],
             xIsNext: true,
             stepNumber: 0,
+            orderReverse: false,
         };
     }
 
@@ -45,6 +46,12 @@ class Game extends React.Component {
         });
     }
 
+    handleReverseClick(){
+        this.setState({
+            orderReverse: !this.state.orderReverse
+        });
+    }
+
     render() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
@@ -65,8 +72,10 @@ class Game extends React.Component {
                 />
                 <div className="game__info">
                     <div className="game__status">{status}</div>
+                    <button onClick={()=> this.handleReverseClick()}> Change history order </button>
                     <HistoryPanel history={this.state.history}
                                   stepNumber={this.state.stepNumber}
+                                  orderReverse={this.state.orderReverse}
                                   onClick={ (i)=> this.jumpTo(i)}>
                     </HistoryPanel>
                 </div>
